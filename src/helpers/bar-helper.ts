@@ -22,7 +22,14 @@ export const convertToBarTasks = (
   milestoneBackgroundColor: string,
   milestoneBackgroundSelectedColor: string
 ) => {
+  var prevTask = '';
+  var index = 0;
   let barTasks = tasks.map((t, i) => {
+    var currentTask = t.name; 
+    if (currentTask !== prevTask){
+      index = index + 1
+    }
+    console.log('INDEX:', index)
     return convertToBarTask(
       t,
       i,

@@ -54,7 +54,7 @@ const App = () => {
     alert("On Double Click event Id:" + task.id);
   };
 
-  const handleClick = (task: Task) => {
+  const handleClick = (task: Task) => {getStartEndDateForProject
     console.log("On Click event Id:" + task.id);
   };
 
