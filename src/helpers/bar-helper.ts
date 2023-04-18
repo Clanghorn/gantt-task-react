@@ -24,15 +24,19 @@ export const convertToBarTasks = (
 ) => {
   var prevTask = '';
   var index = 0;
-  let barTasks = tasks.map((t, i) => {
-    var currentTask = t.name; 
-    if (currentTask !== prevTask){
+  let barTasks = tasks.map((t) => {
+    var currentTask = t.name;
+    if (prevTask === ''){
+      prevTask= t.name
+    } 
+    else if (currentTask !== prevTask){
       index = index + 1
+      prevTask= t.name
     }
-    console.log('INDEX:', index)
+    
     return convertToBarTask(
       t,
-      i,
+      index,
       dates,
       columnWidth,
       rowHeight,

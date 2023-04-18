@@ -33,28 +33,33 @@ export const GridBody: React.FC<GridBodyProps> = ({
       className={styles.gridRowLine}
     />,
   ];
+  let prevTask = "";
   for (const task of tasks) {
-    gridRows.push(
-      <rect
-        key={"Row" + task.id}
-        x="0"
-        y={y}
-        width={svgWidth}
-        height={rowHeight}
-        className={styles.gridRow}
-      />
-    );
-    rowLines.push(
-      <line
-        key={"RowLine" + task.id}
-        x="0"
-        y1={y + rowHeight}
-        x2={svgWidth}
-        y2={y + rowHeight}
-        className={styles.gridRowLine}
-      />
-    );
-    y += rowHeight;
+    let currentTask = task.name;
+    if (currentTask !== prevTask) {
+      prevTask = task.name;
+      gridRows.push(
+        <rect
+          key={"Row" + task.id}
+          x="0"
+          y={y}
+          width={svgWidth}
+          height={rowHeight}
+          className={styles.gridRow}
+        />
+      );
+      rowLines.push(
+        <line
+          key={"RowLine" + task.id}
+          x="0"
+          y1={y + rowHeight}
+          x2={svgWidth}
+          y2={y + rowHeight}
+          className={styles.gridRowLine}
+        />
+      );
+      y += rowHeight;
+    }
   }
 
   const now = new Date();
