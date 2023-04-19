@@ -82,13 +82,13 @@ export const TaskListTableDefault: React.FC<{
         } else if (t.hideChildren === true) {
           expanderSymbol = "▶";
         }
-        let currentTask = t.name;
+        let currentTask = t.project;
 
         if (currentTask !== taskName) {
-          taskName = t.name;
+          taskName = t.project!;
           // Filter Tasks
           const siteTasks: Task[] = tasks.filter(task =>
-            task.name.includes(taskName)
+            task.project!.includes(taskName)
           );
           const fromDate = getEarliestDate(siteTasks);
           const toDate = getLatestDate(siteTasks);
@@ -120,7 +120,7 @@ export const TaskListTableDefault: React.FC<{
                   >
                     {expanderSymbol}
                   </div>
-                  <div>{t.name}</div>
+                  <div>{t.project}</div>
                 </div>
               </div>
               <div

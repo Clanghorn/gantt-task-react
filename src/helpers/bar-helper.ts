@@ -25,13 +25,13 @@ export const convertToBarTasks = (
   var prevTask = '';
   var index = 0;
   let barTasks = tasks.map((t) => {
-    var currentTask = t.name;
+    var currentTask = t.project;
     if (prevTask === ''){
-      prevTask= t.name
+      prevTask= t.project!
     } 
     else if (currentTask !== prevTask){
       index = index + 1
-      prevTask= t.name
+      prevTask= t.project!
     }
     
     return convertToBarTask(

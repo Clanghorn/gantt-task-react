@@ -35,9 +35,9 @@ export const GridBody: React.FC<GridBodyProps> = ({
   ];
   let prevTask = "";
   for (const task of tasks) {
-    let currentTask = task.name;
+    let currentTask = task.project;
     if (currentTask !== prevTask) {
-      prevTask = task.name;
+      prevTask = task.project!;
       gridRows.push(
         <rect
           key={"Row" + task.id}
