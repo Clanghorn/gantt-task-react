@@ -21,9 +21,30 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
   day: "numeric",
 };
 
+const getEarliestDate = (tasks: Task[]) => {
+  let earliestDate: Date = tasks[0].start;
+  tasks.forEach(function (site) {
+    // Compare dates and update earliestDate if necessary
+    if (site.start < earliestDate) {
+      earliestDate = site.start;
+    }
+  });
+  return earliestDate;
+};
+
+const getLatestDate = (tasks: Task[]) => {
+  let latestDate: Date = tasks[0].end;
+  tasks.forEach(function (site) {
+    // Compare dates and update Latest Date if necessary
+    if (site.end > latestDate) {
+      latestDate = site.end;
+    }
+  });
+  return latestDate;
+};
+
 export const TaskListTableDefault: React.FC<{
   rowHeight: number;
-  rowWidth: string;
   fontFamily: string;
   fontSize: string;
   locale: string;
@@ -33,7 +54,6 @@ export const TaskListTableDefault: React.FC<{
   onExpanderClick: (task: Task) => void;
 }> = ({
   rowHeight,
-  rowWidth,
   tasks,
   fontFamily,
   fontSize,
@@ -45,6 +65,8 @@ export const TaskListTableDefault: React.FC<{
     [locale]
   );
   let taskName = "";
+  // let fromDate: Date = new Date();
+  // let toDate: Date = new Date();
   return (
     <div
       className={styles.taskListWrapper}
@@ -61,8 +83,16 @@ export const TaskListTableDefault: React.FC<{
           expanderSymbol = "▶";
         }
         let currentTask = t.name;
+
         if (currentTask !== taskName) {
           taskName = t.name;
+          // Filter Tasks
+          const siteTasks: Task[] = tasks.filter(task =>
+            task.name.includes(taskName)
+          );
+          const fromDate = getEarliestDate(siteTasks);
+          const toDate = getLatestDate(siteTasks);
+
           return (
             <div
               className={styles.taskListTableRow}
@@ -72,10 +102,12 @@ export const TaskListTableDefault: React.FC<{
               <div
                 className={styles.taskListCell}
                 style={{
-                  minWidth: rowWidth,
-                  maxWidth: rowWidth,
+                  minWidth: "auto",
+                  maxWidth: "auto",
+                  //paddingLeft: "10px",
+                  paddingRight: "10px",
                 }}
-                title={t.name}
+                title={taskName}
               >
                 <div className={styles.taskListNameWrapper}>
                   <div
@@ -94,20 +126,24 @@ export const TaskListTableDefault: React.FC<{
               <div
                 className={styles.taskListCell}
                 style={{
-                  minWidth: rowWidth,
-                  maxWidth: rowWidth,
+                  minWidth: "auto",
+                  maxWidth: "auto",
+                 // paddingLeft: "10px",
+                  paddingRight: "10px",
                 }}
               >
-                &nbsp;{toLocaleDateString(t.start, dateTimeOptions)}
+                &nbsp;{toLocaleDateString(fromDate, dateTimeOptions)}
               </div>
               <div
                 className={styles.taskListCell}
                 style={{
-                  minWidth: rowWidth,
-                  maxWidth: rowWidth,
+                  minWidth: "auto",
+                  maxWidth: "auto",
+                 // paddingLeft: "10px",
+                  paddingRight: "10px",
                 }}
               >
-                &nbsp;{toLocaleDateString(t.end, dateTimeOptions)}
+                &nbsp;{toLocaleDateString(toDate, dateTimeOptions)}
               </div>
             </div>
           );
