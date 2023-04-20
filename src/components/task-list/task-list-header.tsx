@@ -26,10 +26,10 @@ export const TaskListHeaderDefault: React.FC<{
           style={{
             minWidth: "auto",
             paddingLeft: "10px",
-            paddingRight: "15px",
+            paddingRight: "50px",
           }}
         >
-          &nbsp;Name
+          &nbsp;SiteID | SiteName
         </div>
         <div
           className={styles.ganttTable_HeaderSeparator}

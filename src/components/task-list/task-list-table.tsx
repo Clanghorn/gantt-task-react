@@ -2,6 +2,11 @@ import React, { useMemo } from "react";
 import styles from "./task-list-table.module.css";
 import { Task } from "../../types/public-types";
 
+interface TaskSite extends Task {
+  MilestoneCost: string;
+  SiteName: string;
+}
+
 const localeDateStringCache = {};
 const toLocaleDateStringFactory =
   (locale: string) =>
@@ -21,7 +26,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
   day: "numeric",
 };
 
-const getEarliestDate = (tasks: Task[]) => {
+const getEarliestDate = (tasks: TaskSite[]) => {
   let earliestDate: Date = tasks[0].start;
   tasks.forEach(function (site) {
     // Compare dates and update earliestDate if necessary
@@ -32,7 +37,7 @@ const getEarliestDate = (tasks: Task[]) => {
   return earliestDate;
 };
 
-const getLatestDate = (tasks: Task[]) => {
+const getLatestDate = (tasks: TaskSite[]) => {
   let latestDate: Date = tasks[0].end;
   tasks.forEach(function (site) {
     // Compare dates and update Latest Date if necessary
@@ -48,18 +53,11 @@ export const TaskListTableDefault: React.FC<{
   fontFamily: string;
   fontSize: string;
   locale: string;
-  tasks: Task[];
+  tasks: TaskSite[];
   selectedTaskId: string;
   setSelectedTask: (taskId: string) => void;
-  onExpanderClick: (task: Task) => void;
-}> = ({
-  rowHeight,
-  tasks,
-  fontFamily,
-  fontSize,
-  locale,
-  onExpanderClick,
-}) => {
+  onExpanderClick: (task: TaskSite) => void;
+}> = ({ rowHeight, tasks, fontFamily, fontSize, locale, onExpanderClick }) => {
   const toLocaleDateString = useMemo(
     () => toLocaleDateStringFactory(locale),
     [locale]
@@ -87,7 +85,7 @@ export const TaskListTableDefault: React.FC<{
         if (currentTask !== taskName) {
           taskName = t.project!;
           // Filter Tasks
-          const siteTasks: Task[] = tasks.filter(task =>
+          const siteTasks: TaskSite[] = tasks.filter(task =>
             task.project!.includes(taskName)
           );
           const fromDate = getEarliestDate(siteTasks);
@@ -120,7 +118,7 @@ export const TaskListTableDefault: React.FC<{
                   >
                     {expanderSymbol}
                   </div>
-                  <div>{t.project}</div>
+                  <div>{t.project + " | " + t.SiteName}</div>
                 </div>
               </div>
               <div
@@ -128,7 +126,7 @@ export const TaskListTableDefault: React.FC<{
                 style={{
                   minWidth: "auto",
                   maxWidth: "auto",
-                 // paddingLeft: "10px",
+                  // paddingLeft: "10px",
                   paddingRight: "10px",
                 }}
               >
@@ -139,7 +137,7 @@ export const TaskListTableDefault: React.FC<{
                 style={{
                   minWidth: "auto",
                   maxWidth: "auto",
-                 // paddingLeft: "10px",
+                  // paddingLeft: "10px",
                   paddingRight: "10px",
                 }}
               >
