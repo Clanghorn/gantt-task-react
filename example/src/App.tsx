@@ -1,13 +1,13 @@
 import React from "react";
 import { Task, ViewMode, Gantt } from "gantt-task-react";
 import { ViewSwitcher } from "./components/view-switcher";
-import { getStartEndDateForProject, initTasks } from "./helper";
+import { getStartEndDateForProject,  initSiteTasks } from "./helper";
 import "gantt-task-react/dist/index.css";
 
 // Init
 const App = () => {
   const [view, setView] = React.useState<ViewMode>(ViewMode.Day);
-  const [tasks, setTasks] = React.useState<Task[]>(initTasks());
+  const [tasks, setTasks] = React.useState<Task[]>(initSiteTasks());
   const [isChecked, setIsChecked] = React.useState(true);
   let columnWidth = 65;
   if (view === ViewMode.Year) {
@@ -54,7 +54,7 @@ const App = () => {
     alert("On Double Click event Id:" + task.id);
   };
 
-  const handleClick = (task: Task) => {getStartEndDateForProject
+  const handleClick = (task: Task) => {
     console.log("On Click event Id:" + task.id);
   };
 
